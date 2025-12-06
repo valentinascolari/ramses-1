@@ -1,0 +1,99 @@
+            ORG H00                 
+
+START:      
+            LDR A, HB4
+            STR A, NVAL
+
+            
+            LDR A, HB5
+            STR A, MBASE
+
+            
+            LDR A, #0
+            STR A,IL
+
+            LDR A, MBASE
+            STR A, ROW_PTR
+            STR A, ROW_CUR
+
+
+LOOP_I:     LDR A,IL
+            SUB A, NVAL
+            JZ  END_ALL
+
+            LDR X, #HB6            
+            ADD X,IL
+            LDR A, 0,X
+            STR A, VI
+
+            LDR A, VI
+            ADD A, VI
+            STR A, TWO_VI
+
+            
+            LDR A, #0
+            STR A, J
+
+LOOP_J:     LDR A, J
+            SUB A, NVAL
+            JZ  END_ROW
+
+            LDR X, #HB6            
+            ADD X, J
+            LDR B, 0,X
+            STR B, VJ
+
+            LDR A,IL
+            SUB A, J
+            JZ  DIAG
+
+            LDR A, TWO_VI
+            SUB A, VJ
+            JMP STORE
+
+DIAG:       
+            LDR A, TWO_VI
+
+STORE:      
+            LDR X, ROW_CUR
+            STR A, 0,X
+
+            LDR A, J
+            ADD A, #1
+            STR A, J
+
+            LDR X, ROW_CUR
+            ADD X, #1
+            STR X, ROW_CUR
+
+            JMP LOOP_J
+
+
+END_ROW:    
+            LDR A,IL
+            ADD A, #1
+            STR A,IL
+
+            LDR A, ROW_PTR
+            ADD A, NVAL
+            STR A, ROW_PTR
+
+            LDR A, ROW_PTR
+            STR A, ROW_CUR
+
+            JMP LOOP_I
+
+END_ALL:    HLT
+
+
+            ORG H90
+
+NVAL:       DB 0
+MBASE:      DB 0
+IL:          DB 0
+J:          DB 0
+VI:         DB 0
+VJ:         DB 0
+TWO_VI:     DB 0
+ROW_PTR:    DB 0
+ROW_CUR:    DB 0
