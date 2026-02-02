@@ -1,7 +1,4 @@
 # RAMSES Matrix Generation Program  
-### INF01108 – Computer Architecture and Organization I  
-### Federal University of Rio Grande do Sul (UFRGS)
-
 This project implements a RAMSES assembly program capable of generating an **N × N matrix** in memory based on a generator vector **v**, following the specification provided in the course assignment.  
 
 The program must be assembled using **Daedalus** and executed and tested using **Hidra**.
